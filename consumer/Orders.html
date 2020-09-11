@@ -1,0 +1,428 @@
+<html>
+    <head>
+
+      
+       <meta charset="utf-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+       <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+                crossorigin="anonymous">
+        </script> -->
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<script
+src="https://code.jquery.com/jquery-3.4.1.min.js"
+integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Bootstrap CSS
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" > -->
+
+
+    </head>
+    <body>
+      <div class="container">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6">
+
+         <!-- all orders -->
+        <input type="button" value="all orders" onclick="AllOrders();" /> <br>
+        <div id="divData" >
+            <table  id="tblData" class="table">
+                <thead>
+                    <tr class="success">
+                        <th scope="col">ID</td>
+                        <th scope="col">Number</td>
+                        <th scope="col">Customer Id</td>
+                        <th scope="col">Delete</td> 
+                        <th scope="col">Update</td>
+                    </tr>
+                </thead>
+                <tbody id="tblBody"></tbody>
+            </table> <br>
+        </div>
+        <hr>
+        <hr>
+        <!-- Add order -->
+                 <div>
+                    <h4> add order</h4>
+                    <label for="OrderNumPost"><b>Order Number</b></label> <br>
+                    <input type="text" placeholder="Enter Order Number" id="OrderNumPost" required><br>
+                    <input type="button" value="Add order" onclick="Add();" /> <br>
+                    
+                   </div>
+          
+                   <hr>
+                   <hr>
+        <!-- order by id -->
+        <div>
+          <h4>Get Order Details</h4>
+          <label for="OrderIdGet"><b>Order Id</b></label> <br>
+          <input type="text" placeholder="Enter ID" id="OrderIdGet" required><br>
+          <input type="button" value="get order datails" onclick="OrderById();" /> <br>
+          <div id="GetOrder"></div>
+        </div>
+        <hr>
+        <hr>
+        <!-- update order -->
+        <!-- <div>
+          <h4>Update order</h4>
+          <label for="OrderIdPut"><b>Order Id</b></label> <br>
+          <input type="text" placeholder="Enter ID" id="OrderIdPut" required><br>
+          <label for="OrderNumPut"><b>Order Number</b></label> <br>
+          <input type="text" placeholder="Enter Number" id="OrderNumPut" required><br>
+          <input type="button" value="update order" onclick="Update();" /> <br>
+          
+        </div>     -->
+        
+        <hr>
+        <hr>
+
+         <!-- Delete Order -->
+         <!-- <div>
+          <label for="OrderIdDel"><b>Order Id</b></label> <br>
+          <input type="text" placeholder="Enter ID" id="OrderIdDel" required><br>
+          <input type="button" value="Delete order" onclick="Delete();" /> <br>
+          
+        </div> -->
+        
+
+            </div>
+            <div class="col-3"></div>
+
+   <!-- Modal -->
+   <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Modal Header</h4>
+          </div>
+          <div class="modal-body" id="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+        </div>
+      </div>
+        
+<script>
+    //working
+ function AllOrders() {
+       var token = sessionStorage.getItem('accessToken');
+       console.log(token);
+       $.ajax({
+           url: "http://localhost:54653//api/orders/AllOrders",
+           method: "Get",
+           content_Type:'application/json',
+           headers: 
+           {
+              Authorization: 'Bearer '+token,
+           },
+        error: function (err) 
+        {
+            alert("login to continue");
+                  switch (err.status) 
+                  {
+                    case "400":
+                        console.log(" bad request")
+                        break;
+                     case "401":
+                        console.log("unauthorized")
+                        break;
+                    case "403":
+                        console.log("forbidden")
+                        break;
+                    default:
+                        console.log("Something bad happened")
+                        break; 
+                  }
+        },
+        success: function (data) 
+        {
+          document.getElementById("tblBody").innerHTML=" ";
+            $.each(data, function (index, value) {
+                            var row = $('<tr><td>' + value.Id + '</td><td>'
+                                + value.Number + '</td><td>'
+                                + value.CustomerId + '</td><td>'
+                                +'<input type="button" value="delete order" onclick="Delete('+value.Id+');" /> </td><td>'
+                                +'<input type="button" value="Update order" onclick="ShowModal('+value.Id+');" /> </td><td>'
+                                 +'<input type="button" value="Update order" onclick="ShowModal('+value.Id+');" /> </td><td>'
+                                +'</td></tr>');
+                            $('#tblData').append(row);
+                        });
+        console.log(data[0]);
+        }
+});
+}
+
+
+function ShowModal(x)
+{
+  //$('#myModal').modal('show'); 
+     var myHeading = 
+     " <label for='OrderNumPut'><b>Order Number</b></label> <br>"
+     +"  <input type='text' placeholder='Enter Number' id='OrderNumPut' required><br>"
+     +"   <input type='button' value='update order' onclick='Update("+x+");' /> <br></div>";
+    
+    
+     $("#modal-body").html(myHeading);     
+     $('#myModal').modal('show');
+    
+  
+}
+
+ function OrderById(xid)
+{
+  var token = sessionStorage.getItem('accessToken'); 
+  var idget = document.getElementById("OrderIdGet").value;
+  if (sessionStorage.getItem('accessToken')==null)
+  {
+    alert("login to continue");
+  }
+  else
+  {
+  $.ajax({
+           url: "http://localhost:54653//api/orders/order/"+xid,
+           method: "Get",
+           content_Type:'application/json',
+           headers: 
+           {
+              Authorization: 'Bearer '+token,
+           },
+        error: function (err) 
+        {
+            alert("Sorry something went wrong");
+                  switch (err.status) 
+                  {
+                    case "400":
+                        console.log(" bad request")
+                        break;
+                     case "401":
+                        console.log("unauthorized")
+                        break;
+                    case "403":
+                        console.log("forbidden")
+                        break;
+                    default:
+                        console.log("Something bad happened")
+                        break; 
+                  }
+        },
+        success: function (data) 
+        {
+            if(data==null)
+            {
+                document.getElementById("GetOrder").innerHTML= "this id is not correct";
+            }
+            else
+            {
+                document.getElementById("GetOrder").innerHTML = 
+                     "Order Id : "+data.Id+"<br>" +  "Order Number : "+data.Number +"<br>"+"Customer Id : "+data.CustomerId;
+            }
+
+        }  
+        });
+       
+  }
+
+}
+
+function Update(xid)
+{
+  var tokenPut = sessionStorage.getItem('accessToken'); 
+  //var idput = document.getElementById("OrderIdPut").value;
+
+  if (tokenPut==null)
+  {
+    alert("login to continue");
+  }
+  else
+  {
+
+
+        $.ajax(
+        {
+           url: "http://localhost:54653//api/orders/UpdateOrder/"+xid,
+           method: "Put",
+           content_Type:'application/json',
+           headers: 
+           {
+              Authorization: 'Bearer '+tokenPut,
+           },
+           data:
+           {
+               Id:xid,
+               Number:document.getElementById("OrderNumPut").value,
+
+          },
+        
+        error: function (err) 
+        {
+            alert("Sorry something went wrong");
+                  switch (err.status) 
+                  {
+                    case "400":
+                        console.log(" bad request")
+                        break;
+                     case "401":
+                        console.log("unauthorized")
+                        break;
+                    case "403":
+                        console.log("forbidden")
+                        break;
+                    default:
+                        console.log("Something bad happened")
+                        break; 
+                  }
+        },
+        success: function (data) 
+        {
+            alert("order updated successfully");
+        }  
+        });
+   
+      
+     
+  }
+
+}
+
+//working
+function Add()
+{
+  var tokenPost = sessionStorage.getItem('accessToken'); 
+ 
+  if (sessionStorage.getItem('accessToken')==null)
+  {
+    alert("login to continue");
+  }
+  else
+  {
+  $.ajax(
+        {
+           url: "http://localhost:54653//api/orders/AddOrder",
+           method: "POST",
+           content_Type:'application/json',
+           headers: 
+           {
+              Authorization: 'Bearer '+tokenPost,
+           },
+           data:
+           {
+               Number:document.getElementById("OrderNumPost").value,
+           },
+  
+        error: function (err) 
+        {
+           
+                  switch (err.status) 
+                  {
+                    case "400":
+                        console.log(" bad request")
+                        break;
+                     case "401":
+                        console.log("unauthorized")
+                        break;
+                    case "403":
+                        console.log("forbidden")
+                        break;
+                    default:
+                        console.log("Something bad happened")
+                        break; 
+                  }
+                  alert("Sorry something went wrong");
+        },
+        success: function (data) 
+        {
+        alert("order adedd");
+
+        }  
+        });
+       
+  }
+
+}
+
+function Delete(xid)
+{
+  var tokenDel = sessionStorage.getItem('accessToken'); 
+ // var idDel = document.getElementById("OrderIdDel").value;
+  if (sessionStorage.getItem('accessToken')==null)
+  {
+    alert("login to continue");
+  }
+  else
+  {
+  $.ajax(
+        {
+           url: "http://localhost:54653//api/orders/DeleteOrder/"+xid,
+           method: "Delete",
+           content_Type:'application/json',
+           headers: 
+           {
+              Authorization: 'Bearer '+tokenDel,
+           },
+
+        error: function (err) 
+        {
+           
+                  switch (err.status) 
+                  {
+                    case "400":
+                        console.log(" bad request")
+                        break;
+                     case "401":
+                        console.log("unauthorized")
+                        break;
+                    case "403":
+                        console.log("forbidden")
+                        break;
+                    default:
+                        console.log("Something bad happened")
+                        break; 
+                  }
+                  alert("Sorry something went wrong \n check the Id you enterd");
+        },
+        success: function (data) 
+        {
+        alert("order Deleted");
+
+        }  
+        });
+       
+  }
+
+}
+
+// =========================================
+
+</script>
+
+
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+ -->
+
+
+    </body>
+
+</html>

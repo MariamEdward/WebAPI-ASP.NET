@@ -1,0 +1,41 @@
+﻿
+//app
+asp app => totally empty 
+
+
+1- install these packages 
+
+=> webaPi.owin                  //to use web api via owin not cre
+=> owin.host.system             //to host our app on
+=> identity.entityframework     //to make secuirty (authentication & authorization)
+=> identity.owin                //to make the identity use token not cookies
+
+2- start up class
+
+=> set uo routes for web api
+
+
+3-  Model
+=> order model
+=> applicationDbContext 
+=> connection string in web config
+
+4- migration 
+
+5- Order controller
+
+=> note you can`t scafolding because it can not get metadata of identity 
+   you can solve this by make DTO or comment the identity lines then put it again after scafolding
+=> do not forget build before scafolding
+
+
+6- test by postman /////////////////the app doesnot work with chrome//////////////
+7- with authorize attribute
+
+=======================Identity steps==================================
+1- account controller => empty controller without scafolding
+2- user model +validation to user model
+3- create post api
+4- test
+----------------------
+5 -

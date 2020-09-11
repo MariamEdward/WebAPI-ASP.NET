@@ -1,0 +1,194 @@
+<html>
+    <head>
+  
+        <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+                crossorigin="anonymous">
+        </script> -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<script
+src="https://code.jquery.com/jquery-3.4.1.min.js"
+integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        
+    </head>
+    <body>
+    
+    
+    
+        <div class="container">
+                <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                                <label for="uname"><b>Username</b></label> <br>
+                                <input type="text" placeholder="Enter Username" id="uname" required> <br>
+                        
+                                <label for="psw"><b>Password</b></label> <br>
+                                <input type="password" placeholder="Enter Password" id="psw" required><br>
+                    
+                                <label for="cpsw"><b>Confirm Password</b></label> <br>
+                                <input type="password" placeholder="Confirm Password" id="cpsw" required><br>    
+                    
+                                <input type="button" value="SignUp" id="btnRegister"  /> <br>
+                           
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+            
+    
+        </div>
+    
+       
+<script>
+
+
+$('#btnRegister').click(function () {
+    var name = document.getElementById("uname").value;;
+    var pass = document.getElementById("psw").value;
+    var cpass = document.getElementById("cpsw").value;
+    if(name==""||pass==""||cpass=="")
+   {
+       alert("plaeze complete fields")
+   }
+   else
+   {
+   console.log(name+"/"+pass+"/"+cpass);
+            $.ajax({
+                url: 'http://localhost:54653/api/Account',
+                method: 'POST',
+                data: {
+                    Name: name,
+                    Password: pass,
+                    ConfirmPassword:cpass,
+                },
+                success: function () {
+                    window.location.href = "login.html";
+                },
+                error: function (jqXHR) {
+                    console.log(jqXHR)
+                    alert("sorry some thimg went wrong check you entered valid data");
+                    // $('#divErrorText').text(jqXHR.responseText);
+                    // $('#divError').show('fade');
+                }
+            })
+
+        
+    }
+});
+
+function Register() {
+    var name = document.getElementById("uname").value;;
+    var pass = document.getElementById("psw").value;
+    var cpass = document.getElementById("cpsw").value;
+    if(name==""||pass==""||cpass=="")
+    {
+        alert("plaeze complete fields")
+    }
+        $.ajax({
+                      url:'http://localhost:54653/api/Account',
+                      method:'POST',
+                      data:{
+                        Name:name,
+                        Passowrd:pass,
+                        ConfirmPassord:cpass,
+                                           
+                  },
+                 
+                  success:function(response)
+                  {
+  
+                      alert( "you have logined successfully");
+                      
+                      window.location.href="login.html";
+                  },
+                  error:function(err)
+                  {
+                    console.log(err)
+                    alert("make sure you entered password and name correst");
+                  }
+              
+          });
+         
+      }
+   
+  
+
+
+         
+
+</script>
+<!-- Working
+function Register() {
+   
+   var name = document.getElementById("uname").value;;
+   var pass = document.getElementById("psw").value;
+   var cpass = document.getElementById("cpsw").value;
+   if(name==""||pass==""||cpass=="")
+   {
+       alert("plaeze complete fields")
+   }
+   else
+   {
+   console.log(name+"/"+pass+"/"+cpass);
+    $.ajax({
+                  url:'http://localhost:54653/api/Account',
+                  method:'POST',
+                  contentType:'application/json',
+                  data:
+                  {
+                    Name:name,
+                  Password:pass,
+                  ConfirmPassword:cpass,
+                                       
+              },
+             
+              success:function(response)
+              {
+                  
+                  console.log(response);
+                  alert( "you have Registerd successfully");
+                  
+                  window.location.href="Orders.html"
+              },
+              error:function(err)
+              {
+                  console.log(err);
+                switch (err.status)
+               {
+                case "400":
+                   console.log(" bad request")
+                   break;
+                case "401":
+                   console.log("unauthorized")
+                   break;
+                case "403":
+                   console.log("forbidden")
+                   break;
+                default:
+                   console.log("Something bad happened")
+                   break;
+               }           
+                alert("some error happened plz chec you entered valid data");
+              }
+          
+      });
+   } 
+  }
+ -->
+
+
+    
+  </body>
+</html>
+
+
+
